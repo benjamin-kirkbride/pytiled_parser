@@ -104,7 +104,7 @@ class Text(TiledObject):
 
     Attributes:
         text: The text to display
-        color: Color of the text. (default: (255, 255, 255, 255))
+        color: Color of the text. (default: (0, 0, 0, 255))
         font_family: The font family used (default: "sans-serif")
         font_size: The size of the font in pixels. (default: 16)
         bold: Whether the font is bold. (default: False)
@@ -119,7 +119,7 @@ class Text(TiledObject):
     """
 
     text: str
-    color: Color = Color(255, 255, 255, 255)
+    color: Color = Color(0, 0, 0, 255)
 
     font_family: str = "sans-serif"
     font_size: float = 16
