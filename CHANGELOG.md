@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [2.2.5] - 2024-07-01
+
+Adds a `__all__` section to the main library `__init__.py` file which fixes problems when running pyright in strict mode against this library, it would not be able to see the exported types.
+
 ## [2.2.4] - 2024-07-01
 
 Small change to the default text color, in Tiled the text color defaults to blac(0, 0, 0), previously in pytiled-parser if the color was not specified it would default to white(255, 255, 255). This has been changed to match Tiled's behavior [#70](https://github.com/pythonarcade/pytiled_parser/pull/70)
