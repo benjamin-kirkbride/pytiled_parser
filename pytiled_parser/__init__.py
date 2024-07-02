@@ -19,3 +19,29 @@ from .properties import Properties, Property
 from .tiled_map import TiledMap
 from .tileset import Frame, Grid, Tile, Tileset, Transformations
 from .world import World, WorldMap
+
+__all__ = [
+    "Color",
+    "OrderedPair",
+    "Size"
+    "UnknownFormat",
+    "Chunk",
+    "ImageLayer",
+    "Layer",
+    "LayerGroup",
+    "ObjectLayer",
+    "TileLayer",
+    "parse_map",
+    "parse_world",
+    "parse_tileset",
+    "Properties",
+    "Property",
+    "TiledMap",
+    "Frame",
+    "Grid",
+    "Tile",
+    "Tileset",
+    "Transformations",
+    "World",
+    "WorldMap"
+]
