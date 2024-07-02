@@ -1,5 +1,6 @@
 """Object parsing for the JSON Map Format.
 """
+
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 

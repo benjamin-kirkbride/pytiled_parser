@@ -1,5 +1,6 @@
 """Layer parsing for the TMX Map Format.
 """
+
 import base64
 import gzip
 import importlib.util

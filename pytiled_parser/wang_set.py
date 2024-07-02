@@ -5,6 +5,7 @@ See [Tiled's docs about terrain](https://doc.mapeditor.org/en/stable/manual/terr
 and also the [TMX Reference](https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#wangsets)
 and the [JSON Reference](https://doc.mapeditor.org/en/stable/reference/json-map-format/#wang-set)
 """
+
 from typing import Dict, List, Optional
 
 import attr

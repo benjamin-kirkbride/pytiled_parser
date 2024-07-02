@@ -1,4 +1,5 @@
 """Utility Functions for PyTiled"""
+
 import json
 import xml.etree.ElementTree as etree
 from pathlib import Path

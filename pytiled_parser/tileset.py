@@ -4,6 +4,7 @@ Also see [Tiled's Docs for Editing Tilesets](https://doc.mapeditor.org/en/stable
 and [TMX Reference](https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tileset)
 and [JSON Reference](https://doc.mapeditor.org/en/stable/reference/json-map-format/#tileset)
 """
+
 # pylint: disable=too-few-public-methods
 from pathlib import Path
 from typing import Dict, List, NamedTuple, Optional
