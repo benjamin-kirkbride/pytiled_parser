@@ -23,7 +23,7 @@ from .world import World, WorldMap
 __all__ = [
     "Color",
     "OrderedPair",
-    "Size"
+    "Size",
     "UnknownFormat",
     "Chunk",
     "ImageLayer",
@@ -43,5 +43,5 @@ __all__ = [
     "Tileset",
     "Transformations",
     "World",
-    "WorldMap"
+    "WorldMap",
 ]
