@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [2.2.4] - 2024-07-01
+
+Small change to the default text color, in Tiled the text color defaults to blac(0, 0, 0), previously in pytiled-parser if the color was not specified it would default to white(255, 255, 255). This has been changed to match Tiled's behavior [#70](https://github.com/pythonarcade/pytiled_parser/pull/70)
+
+Added a py.typed file in order for type checkers to identify the library as being typed properly.
+
 ## [2.2.3] - 2023-05-17
 
 Exposed tileset parsing more directly. This was possible by accessing the largely internal interfaces within pytiled_parser already, but this provides the same interface for parsing Tilesets as we have for parsing maps. You can parse a tileset by simply passing the filepath to `pytiled_parser.parse_tileset(file)` where `file` is a `pathlib.Path` object.

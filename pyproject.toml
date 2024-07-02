@@ -1,6 +1,6 @@
 [project]
 name = "pytiled_parser"
-version = "2.2.3"
+version = "2.2.4"
 description = "A library for parsing Tiled Map Editor maps and tilesets"
 readme = "README.md"
 authors = [
