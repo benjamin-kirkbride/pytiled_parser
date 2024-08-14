@@ -20,6 +20,7 @@ ALL_MAP_TESTS = [
     MAP_TESTS / "embedded_tileset",
     MAP_TESTS / "template",
     MAP_TESTS / "cross_format_tileset",
+    MAP_TESTS / "cjk_tileset",
 ]
 
 JSON_INVALID_TILESET = MAP_TESTS / "json_invalid_tileset"

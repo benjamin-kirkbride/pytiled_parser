@@ -1,3 +1,4 @@
+import chardet
 import json
 import xml.etree.ElementTree as etree
 from pathlib import Path
@@ -14,15 +15,19 @@ from pytiled_parser.world import World
 from pytiled_parser.world import parse_world as _parse_world
 
 
-def parse_map(file: Path, encoding: str = "UTF-8") -> TiledMap:
+def parse_map(file: Path, encoding: str = "") -> TiledMap:
     """Parse the raw Tiled map into a pytiled_parser type
 
     Args:
         file: Path to the map file
+        encoding: The encoding of the map.
 
     Returns:
         TiledMap: A parsed and typed TiledMap
     """
+    if not encoding:
+        with open(file, "rb") as f:
+            encoding = chardet.detect(f.read())["encoding"]
     parser = check_format(file, encoding=encoding)
 
     # The type ignores are because mypy for some reason thinks those functions return Any
@@ -30,7 +35,7 @@ def parse_map(file: Path, encoding: str = "UTF-8") -> TiledMap:
         return tmx_map_parse(file, encoding=encoding)  # type: ignore
     else:
         try:
-            return json_map_parse(file)  # type: ignore
+            return json_map_parse(file, encoding=encoding)  # type: ignore
         except ValueError:
             raise UnknownFormat(
                 "Unknown Map Format, please use either the TMX or JSON format. "

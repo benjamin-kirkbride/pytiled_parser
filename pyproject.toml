@@ -30,7 +30,8 @@ classifiers = [
 ]
 dependencies = [
     "attrs >= 18.2.0",
-    "typing-extensions"
+    "typing-extensions",
+    "chardet"
 ]
 
 [project.urls]
