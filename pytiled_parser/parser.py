@@ -14,7 +14,7 @@ from pytiled_parser.world import World
 from pytiled_parser.world import parse_world as _parse_world
 
 
-def parse_map(file: Path) -> TiledMap:
+def parse_map(file: Path, encoding: str = "UTF-8") -> TiledMap:
     """Parse the raw Tiled map into a pytiled_parser type
 
     Args:
@@ -23,11 +23,11 @@ def parse_map(file: Path) -> TiledMap:
     Returns:
         TiledMap: A parsed and typed TiledMap
     """
-    parser = check_format(file)
+    parser = check_format(file, encoding=encoding)
 
     # The type ignores are because mypy for some reason thinks those functions return Any
     if parser == "tmx":
-        return tmx_map_parse(file)  # type: ignore
+        return tmx_map_parse(file, encoding=encoding)  # type: ignore
     else:
         try:
             return json_map_parse(file)  # type: ignore

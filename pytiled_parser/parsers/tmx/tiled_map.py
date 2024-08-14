@@ -12,7 +12,7 @@ from pytiled_parser.tiled_map import TiledMap, TilesetDict
 from pytiled_parser.util import check_format, parse_color
 
 
-def parse(file: Path) -> TiledMap:
+def parse(file: Path, encoding: str = "UTF-8") -> TiledMap:
     """Parse the raw Tiled map into a pytiled_parser type.
 
     Args:
@@ -21,7 +21,7 @@ def parse(file: Path) -> TiledMap:
     Returns:
         TiledMap: A parsed TiledMap.
     """
-    with open(file) as map_file:
+    with open(file, encoding=encoding) as map_file:
         raw_map = etree.parse(map_file).getroot()
 
     parent_dir = file.parent

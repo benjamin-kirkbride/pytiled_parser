@@ -37,8 +37,8 @@ def parse_color(color: str) -> Color:
     raise ValueError("Improperly formatted color passed to parse_color")
 
 
-def check_format(file_path: Path) -> str:
-    with open(file_path) as file:
+def check_format(file_path: Path, encoding: str = "UTF-8") -> str:
+    with open(file_path, encoding=encoding) as file:
         line = file.readline().rstrip().strip()
         if line[0] == "<":
             return "tmx"
