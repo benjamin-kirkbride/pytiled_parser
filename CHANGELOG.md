@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [2.2.6] - 2024-08-22
+
+Fixes a bug where properties did not load as expected on objects when using object templates. As of this release, the functionality is such that if properties are defined on both an object, and it's template, they will both end up on the resulting object, with the ones defined directly on the object overriding any properties that have the same name from the template. It does not compare types, so a String property with the name `test` would override a number property with the name `test`, as an example. Comparing types could be done in the future, but is likely more complicated than it's worth doing right now.
+
+Fixes a bug where the TMX parser would report all layers as top level layers, ignoring the layer group nesting. This bug was not present in the JSON parser. (#74)
+
+Also handles some small deprecation warnings related to true/false comparisons of etree.Element classes in the TMX parser.
+
 ## [2.2.5] - 2024-07-01
 
 Adds a `__all__` section to the main library `__init__.py` file which fixes problems when running pyright in strict mode against this library, it would not be able to see the exported types.
