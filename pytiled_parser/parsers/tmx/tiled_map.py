@@ -133,7 +133,7 @@ def parse(file: Path) -> TiledMap:
         map_.hex_side_length = int(raw_map.attrib["hexsidelength"])
 
     properties_element = raw_map.find("./properties")
-    if properties_element:
+    if properties_element is not None:
         map_.properties = parse_properties(properties_element)
 
     if raw_map.attrib.get("staggeraxis") is not None:

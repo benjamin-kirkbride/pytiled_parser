@@ -38,7 +38,7 @@ def _parse_wang_color(raw_wang_color: etree.Element) -> WangColor:
         wang_color.class_ = raw_wang_color.attrib["class"]
 
     properties = raw_wang_color.find("./properties")
-    if properties:
+    if properties is not None:
         wang_color.properties = parse_properties(properties)
 
     return wang_color
@@ -74,7 +74,7 @@ def parse(raw_wangset: etree.Element) -> WangSet:
         wangset.class_ = raw_wangset.attrib["class"]
 
     properties = raw_wangset.find("./properties")
-    if properties:
+    if properties is not None:
         wangset.properties = parse_properties(properties)
 
     return wangset
