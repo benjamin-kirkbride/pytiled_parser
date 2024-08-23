@@ -12,6 +12,10 @@ The [Arcade](https://api.arcade.academy) library has
 [supporting code](https://api.arcade.academy/en/latest/api/tilemap.html) to
 integrate PyTiled Parser and [example code](https://api.arcade.academy/en/latest/examples/index.html#using-tiled-map-editor-to-create-maps) showing its use.
 
+## Supported Python Versions
+
+pytiled-parser works on Python 3.6 - 3.12(and should continue to work on new versions). However we are not actively testing on Python 3.6 and 3.7 due to other development tooling not supporting them, however as long as it remains tenable to do so, we will support these versions and fix problems for them.
+
 ## Installation
 
 Simply install with pip:
