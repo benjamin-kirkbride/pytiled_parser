@@ -325,13 +325,13 @@ def parse(
                             raw_object["properties"] = []
 
                         for prop in loaded_template["properties"]:
-                            
+
                             found = False
                             for prop2 in raw_object["properties"]:
                                 if prop2["name"] == prop["name"]:
                                     found = True
                                     break
-                            
+
                             if not found:
                                 raw_object["properties"].append(prop)
                     else:
