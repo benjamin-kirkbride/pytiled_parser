@@ -21,7 +21,7 @@ EXPECTED = tiled_map.TiledMap(
                     coordinates=common_types.OrderedPair(
                         98.4987608686521, 46.2385012811358
                     ),
-                    properties={"test": "hello"},
+                    properties={"test": "hello", "testtest": "fromtemplate"},
                     visible=True,
                     class_="",
                 ),

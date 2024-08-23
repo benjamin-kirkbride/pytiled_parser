@@ -320,7 +320,22 @@ def parse(
             loaded_template = template["object"]
             for key in loaded_template:
                 if key != "id":
-                    raw_object[key] = loaded_template[key]  # type: ignore
+                    if key == "properties":
+                        if "properties" not in raw_object:
+                            raw_object["properties"] = []
+
+                        for prop in loaded_template["properties"]:
+                            
+                            found = False
+                            for prop2 in raw_object["properties"]:
+                                if prop2["name"] == prop["name"]:
+                                    found = True
+                                    break
+                            
+                            if not found:
+                                raw_object["properties"].append(prop)
+                    else:
+                        raw_object[key] = loaded_template[key]  # type: ignore
         else:
             raise NotImplementedError(
                 "Loading TMX object templates inside a JSON map is currently not supported, "

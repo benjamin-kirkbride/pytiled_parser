@@ -277,8 +277,25 @@ def parse(raw_object: etree.Element, parent_dir: Optional[Path] = None) -> Tiled
                         continue
                     new_object.attrib[key] = val
 
+
                 properties_element = raw_object.find("./properties")
-                if properties_element is not None:
+                temp_properties_element = new_object.find("./properties")
+                if properties_element is not None and temp_properties_element is None:
+                    new_object.append(properties_element)
+                elif properties_element is None and temp_properties_element is not None:
+                    pass
+                elif properties_element is not None and temp_properties_element is not None:                    
+                    for prop in temp_properties_element:
+                            
+                            found = False
+                            for prop2 in properties_element:
+                                if prop.attrib["name"] == prop2.attrib["name"]:
+                                    found = True
+                                    break
+                            
+                            if not found:
+                                properties_element.append(prop)
+                    new_object.remove(temp_properties_element)
                     new_object.append(properties_element)
 
                 raw_object = new_object

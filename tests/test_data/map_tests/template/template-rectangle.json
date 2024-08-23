@@ -6,7 +6,19 @@
      "rotation":0,
      "class":"",
      "visible":true,
-     "width":63.6585878103079
+     "width":63.6585878103079,
+     "properties":[
+        {
+         "name":"test",
+         "type":"string",
+         "value":"world"
+        },
+        {
+         "name":"testtest",
+         "type":"string",
+         "value":"fromtemplate"
+        }
+        ]
     },
  "type":"template"
 }
