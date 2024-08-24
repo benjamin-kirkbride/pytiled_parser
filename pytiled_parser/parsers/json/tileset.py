@@ -413,7 +413,7 @@ def serialize(tileset: Tileset) -> RawTileSet:
         "tileheight": tileset.tile_height,
         "spacing": tileset.spacing,
         "margin": tileset.margin,
-        "columns": tileset.columns
+        "columns": tileset.columns,
     }
 
     if tileset.version is not None:
@@ -431,16 +431,16 @@ def serialize(tileset: Tileset) -> RawTileSet:
 
     if tileset.image_height is not None:
         raw_tileset["imageheight"] = tileset.image_height
-    
+
     if tileset.alignment is not None:
         raw_tileset["objectalignment"] = tileset.alignment
-    
+
     if tileset.background_color is not None:
         raw_tileset["backgroundcolor"] = serialize_color(tileset.background_color)
 
     if tileset.tile_offset is not None:
         raw_tileset["tileoffset"] = _serialize_tile_offset(tileset.tile_offset)
-    
+
     if tileset.transparent_color is not None:
         raw_tileset["transparentcolor"] = serialize_color(tileset.transparent_color)
 
@@ -457,7 +457,9 @@ def serialize(tileset: Tileset) -> RawTileSet:
         raw_tileset["tiles"] = tiles
 
     if tileset.transformations is not None:
-        raw_tileset["transformations"] = _serialize_transformations(tileset.transformations)
+        raw_tileset["transformations"] = _serialize_transformations(
+            tileset.transformations
+        )
 
     if tileset.class_ is not None:
         raw_tileset["class"] = tileset.class_

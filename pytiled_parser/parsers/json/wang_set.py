@@ -98,13 +98,14 @@ def _serialize_wang_color(wang_color: WangColor) -> RawWangColor:
         "name": wang_color.name,
         "color": serialize_color(wang_color.color),
         "tile": wang_color.tile,
-        "probability": wang_color.probability
+        "probability": wang_color.probability,
     }
 
     if wang_color.properties is not None:
         raw_wang_color["properties"] = serialize_properties(wang_color.properties)
 
     return raw_wang_color
+
 
 def parse(raw_wangset: RawWangSet) -> WangSet:
     """Parse the raw wangset into a pytiled_parser type
@@ -152,7 +153,7 @@ def serialize(wangset: WangSet) -> RawWangSet:
         "tile": wangset.tile,
         "type": wangset.wang_type,
         "colors": colors,
-        "wangtiles": tiles
+        "wangtiles": tiles,
     }
 
     if wangset.properties is not None:
