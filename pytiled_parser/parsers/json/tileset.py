@@ -6,8 +6,10 @@ from typing_extensions import TypedDict
 from pytiled_parser.common_types import OrderedPair
 from pytiled_parser.parsers.json.layer import RawLayer
 from pytiled_parser.parsers.json.layer import parse as parse_layer
+from pytiled_parser.parsers.json.layer import serialize as serialize_layer
 from pytiled_parser.parsers.json.properties import RawProperty
 from pytiled_parser.parsers.json.properties import parse as parse_properties
+from pytiled_parser.parsers.json.properties import serialize as serialize_properties
 from pytiled_parser.parsers.json.wang_set import RawWangSet
 from pytiled_parser.parsers.json.wang_set import parse as parse_wangset
 from pytiled_parser.tileset import Frame, Grid, Tile, Tileset, Transformations
@@ -113,6 +115,10 @@ def _parse_frame(raw_frame: RawFrame) -> Frame:
     return Frame(duration=raw_frame["duration"], tile_id=raw_frame["tileid"])
 
 
+def _serialize_frame(frame: Frame) -> RawFrame:
+    return {"duration": frame.duration, "tileid": frame.tile_id}
+
+
 def _parse_tile_offset(raw_tile_offset: RawTileOffset) -> OrderedPair:
     """Parse the raw_tile_offset to an OrderedPair.
 
@@ -124,6 +130,10 @@ def _parse_tile_offset(raw_tile_offset: RawTileOffset) -> OrderedPair:
     """
 
     return OrderedPair(raw_tile_offset["x"], raw_tile_offset["y"])
+
+
+def _serialize_tile_offset(tile_offset: OrderedPair) -> RawTileOffset:
+    return {"x": int(tile_offset.x), "y": int(tile_offset.y)}
 
 
 def _parse_transformations(raw_transformations: RawTransformations) -> Transformations:
@@ -144,6 +154,15 @@ def _parse_transformations(raw_transformations: RawTransformations) -> Transform
     )
 
 
+def _serialize_transformations(transformations: Transformations) -> RawTransformations:
+    return {
+        "hflip": transformations.hflip,
+        "vflip": transformations.vflip,
+        "rotate": transformations.rotate,
+        "preferuntransformed": transformations.prefer_untransformed,
+    }
+
+
 def _parse_grid(raw_grid: RawGrid) -> Grid:
     """Parse the raw_grid to a Grid object.
 
@@ -159,6 +178,10 @@ def _parse_grid(raw_grid: RawGrid) -> Grid:
         width=raw_grid["width"],
         height=raw_grid["height"],
     )
+
+
+def _serialize_grid(grid: Grid) -> RawGrid:
+    return {"orientation": grid.orientation, "width": grid.width, "height": grid.height}
 
 
 def _parse_tile(raw_tile: RawTile, external_path: Optional[Path] = None) -> Tile:
@@ -226,6 +249,48 @@ def _parse_tile(raw_tile: RawTile, external_path: Optional[Path] = None) -> Tile
         tile.height = raw_tile["height"]
 
     return tile
+
+
+def _serialize_tile(tile: Tile) -> RawTile:
+    raw_tile: RawTile = {"id": tile.id}
+
+    if tile.animation:
+        raw_tile["animation"] = []
+        for frame in tile.animation:
+            raw_tile["animation"].append(_serialize_frame(frame))
+
+    if tile.objects:
+        raw_tile["objectgroup"] = serialize_layer(tile.objects)
+
+    if tile.properties:
+        raw_tile["properties"] = serialize_properties(tile.properties)
+
+    if tile.image:
+        # TODO: This is an absolute path, need to figure out relative paths for serialization
+        raw_tile["image"] = str(tile.image)
+
+    if tile.image_width:
+        raw_tile["imagewidth"] = tile.image_width
+
+    if tile.image_height:
+        raw_tile["imageheight"] = tile.image_height
+
+    if tile.class_:
+        raw_tile["class"] = tile.class_
+
+    if tile.x:
+        raw_tile["x"] = tile.x
+
+    if tile.y:
+        raw_tile["y"] = tile.y
+
+    if tile.width:
+        raw_tile["width"] = tile.width
+
+    if tile.height:
+        raw_tile["height"] = tile.height
+
+    return raw_tile
 
 
 def parse(

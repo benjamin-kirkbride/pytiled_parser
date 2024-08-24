@@ -9,6 +9,7 @@ import pytest
 
 from pytiled_parser.common_types import OrderedPair, Size
 from pytiled_parser.parsers.json.layer import parse as parse_json
+from pytiled_parser.parsers.json.layer import serialize as serialize_json
 from pytiled_parser.parsers.tmx.layer import parse as parse_tmx
 
 TESTS_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
@@ -98,6 +99,27 @@ def test_layer_integration(parser_type, layer_test):
         print(layer.size)
 
     assert layers == expected.EXPECTED
+
+@pytest.mark.parametrize("layer_test", ALL_LAYER_TESTS)
+def test_layer_serialization(layer_test):
+    spec = importlib.util.spec_from_file_location(
+        "expected", layer_test / "expected.py"
+    )
+    expected = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(expected)
+
+    raw_layers = [serialize_json(layer) for layer in expected.EXPECTED]
+    parsed = []
+    for raw_layer in raw_layers:
+        parsed.append(parse_json(raw_layer))
+
+    for layer in parsed:
+        fix_layer(layer)
+    
+    for layer in expected.EXPECTED:
+        fix_layer(layer)
+
+    assert parsed == expected.EXPECTED
 
 @pytest.mark.parametrize("parser_type", ["json", "tmx"])
 def test_zstd_not_installed(parser_type):

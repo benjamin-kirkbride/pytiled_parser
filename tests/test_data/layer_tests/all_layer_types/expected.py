@@ -15,6 +15,8 @@ EXPECTED = [
             "test": "test property",
         },
         tint_color=common_types.Color(170, 255, 255, 255),
+        encoding="csv",
+        compression="",
         data=[
             [
                 1,

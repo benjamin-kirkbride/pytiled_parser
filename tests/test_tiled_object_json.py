@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from pytiled_parser import common_types
-from pytiled_parser.parsers.json.tiled_object import parse
+from pytiled_parser.parsers.json.tiled_object import parse, serialize
 from pytiled_parser.tiled_object import (
     Ellipse,
     Point,
@@ -1115,8 +1115,14 @@ def test_parse_layer(raw_object_json, expected):
     assert result == expected
 
 
-def test_parse_no_parent_dir():
+@pytest.mark.parametrize("raw_object_json,expected", OBJECTS)
+def test_serialize_layer(raw_object_json, expected):
+    raw = serialize(expected)
+    parsed = parse(raw)
+    assert parsed == expected
 
+
+def test_parse_no_parent_dir():
     raw_object = """
         {
         "id":1,

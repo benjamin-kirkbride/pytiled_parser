@@ -117,6 +117,9 @@ class TileLayer(Layer):
         tile IDs for the layer (only populaed for non-infinite maps)
     """
 
+    encoding: str = "csv"
+    compression: str = ""
+
     chunks: Optional[List[Chunk]] = None
     data: Optional[List[List[int]]] = None
 

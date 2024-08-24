@@ -223,20 +223,18 @@ def _parse_tile_layer(raw_layer: etree.Element) -> TileLayer:
 
     data_element = raw_layer.find("data")
     if data_element is not None:
-        encoding = None
         if data_element.attrib.get("encoding") is not None:
-            encoding = data_element.attrib["encoding"]
+            tile_layer.encoding = data_element.attrib["encoding"]
 
-        compression = ""
         if data_element.attrib.get("compression") is not None:
-            compression = data_element.attrib["compression"]
+            tile_layer.compression = data_element.attrib["compression"]
 
         raw_chunks = data_element.findall("chunk")
         if not raw_chunks:
-            if encoding and encoding != "csv":
+            if tile_layer.encoding != "csv":
                 tile_layer.data = _decode_tile_layer_data(
                     data=data_element.text,  # type: ignore
-                    compression=compression,
+                    compression=tile_layer.compression,
                     layer_width=int(raw_layer.attrib["width"]),
                 )
             else:
@@ -250,8 +248,8 @@ def _parse_tile_layer(raw_layer: etree.Element) -> TileLayer:
                 chunks.append(
                     _parse_chunk(
                         raw_chunk,
-                        encoding,
-                        compression,
+                        tile_layer.encoding,
+                        tile_layer.compression,
                     )
                 )
 

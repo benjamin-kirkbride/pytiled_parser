@@ -13,6 +13,8 @@ EXPECTED = [
         properties={
             "test": "test property",
         },
+        encoding="base64",
+        compression="",
         chunks=[
             layer.Chunk(
                 coordinates=common_types.OrderedPair(0, 0),
