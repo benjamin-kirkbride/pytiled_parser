@@ -10,6 +10,7 @@ import pytest
 from pytiled_parser import parse_tileset
 from pytiled_parser.common_types import OrderedPair, Size
 from pytiled_parser.parsers.json.tileset import parse as parse_json
+from pytiled_parser.parsers.json.tileset import serialize as serialize_json
 from pytiled_parser.parsers.tmx.tileset import parse as parse_tmx
 
 TESTS_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
@@ -78,3 +79,20 @@ def test_tilesets_integration(parser_type, tileset_dir):
     fix_tileset(expected.EXPECTED)
 
     assert tileset_ == expected.EXPECTED
+
+@pytest.mark.parametrize("tileset_dir", ALL_TILESET_DIRS)
+def test_tilesets_serialization(tileset_dir):
+    spec = importlib.util.spec_from_file_location(
+        "expected", tileset_dir / "expected.py"
+    )
+    expected = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(expected)
+
+    raw_tileset = serialize_json(expected.EXPECTED)
+    # Use a firstgid of 1, since these aren't actually in a map
+    parsed = parse_json(raw_tileset, 1)
+
+    fix_tileset(parsed)
+    fix_tileset(expected.EXPECTED)
+
+    assert parsed == expected.EXPECTED

@@ -12,8 +12,9 @@ from pytiled_parser.parsers.json.properties import parse as parse_properties
 from pytiled_parser.parsers.json.properties import serialize as serialize_properties
 from pytiled_parser.parsers.json.wang_set import RawWangSet
 from pytiled_parser.parsers.json.wang_set import parse as parse_wangset
+from pytiled_parser.parsers.json.wang_set import serialize as serialize_wangset
 from pytiled_parser.tileset import Frame, Grid, Tile, Tileset, Transformations
-from pytiled_parser.util import parse_color
+from pytiled_parser.util import parse_color, serialize_color
 
 RawFrame = TypedDict("RawFrame", {"duration": int, "tileid": int})
 RawFrame.__doc__ = """
@@ -402,3 +403,75 @@ def parse(
         tileset.fill_mode = raw_tileset["fillmode"]
 
     return tileset
+
+
+def serialize(tileset: Tileset) -> RawTileSet:
+    raw_tileset: RawTileSet = {
+        "name": tileset.name,
+        "tilecount": tileset.tile_count,
+        "tilewidth": tileset.tile_width,
+        "tileheight": tileset.tile_height,
+        "spacing": tileset.spacing,
+        "margin": tileset.margin,
+        "columns": tileset.columns
+    }
+
+    if tileset.version is not None:
+        raw_tileset["version"] = tileset.version
+
+    if tileset.tiled_version is not None:
+        raw_tileset["tiledversion"] = tileset.tiled_version
+
+    if tileset.image is not None:
+        # TODO: This is an absolute path, need to handle relative paths for serialization
+        raw_tileset["image"] = str(tileset.image)
+
+    if tileset.image_width is not None:
+        raw_tileset["imagewidth"] = tileset.image_width
+
+    if tileset.image_height is not None:
+        raw_tileset["imageheight"] = tileset.image_height
+    
+    if tileset.alignment is not None:
+        raw_tileset["objectalignment"] = tileset.alignment
+    
+    if tileset.background_color is not None:
+        raw_tileset["backgroundcolor"] = serialize_color(tileset.background_color)
+
+    if tileset.tile_offset is not None:
+        raw_tileset["tileoffset"] = _serialize_tile_offset(tileset.tile_offset)
+    
+    if tileset.transparent_color is not None:
+        raw_tileset["transparentcolor"] = serialize_color(tileset.transparent_color)
+
+    if tileset.grid is not None:
+        raw_tileset["grid"] = _serialize_grid(tileset.grid)
+
+    if tileset.properties is not None:
+        raw_tileset["properties"] = serialize_properties(tileset.properties)
+
+    if tileset.tiles is not None:
+        tiles = []
+        for tile_id, tile in tileset.tiles.items():
+            tiles.append(_serialize_tile(tile))
+        raw_tileset["tiles"] = tiles
+
+    if tileset.transformations is not None:
+        raw_tileset["transformations"] = _serialize_transformations(tileset.transformations)
+
+    if tileset.class_ is not None:
+        raw_tileset["class"] = tileset.class_
+
+    if tileset.tile_render_size != "tile":
+        raw_tileset["tilerendersize"] = tileset.tile_render_size
+
+    if tileset.fill_mode != "stretch":
+        raw_tileset["fillmode"] = tileset.fill_mode
+
+    if tileset.wang_sets is not None:
+        raw_wang_sets = []
+        for wang_set in tileset.wang_sets:
+            raw_wang_sets.append(serialize_wangset(wang_set))
+        raw_tileset["wangsets"] = raw_wang_sets
+
+    return raw_tileset
