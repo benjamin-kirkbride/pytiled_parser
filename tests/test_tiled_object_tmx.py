@@ -129,6 +129,9 @@ RECTANGLES = [
           <property name="float property" type="float" value="42.1"/>
           <property name="int property" type="int" value="8675309"/>
           <property name="string property" value="pytiled_parser rulez!1!!"/>
+          <property name="multiline string property">Hi
+I can write multiple lines in here
+That's pretty great</property>
          </properties>
         </object>
         """,
@@ -144,6 +147,7 @@ RECTANGLES = [
                 "float property": 42.1,
                 "int property": 8675309,
                 "string property": "pytiled_parser rulez!1!!",
+                "multiline string property": "Hi\nI can write multiple lines in here\nThat's pretty great",
             },
         ),
     ),
