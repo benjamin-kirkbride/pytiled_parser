@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [2.2.7] - 2024-10-03
+
+Fixes a bug when using the TMX format, where multi-line String properties would not be correctly parsed, as they are placed differently in the XML than single line strings. (#75)
+
+The Tiled docs also state that this multi-line format may in the future be used for all property values, so this change will help to futureproof against that.
+
 ## [2.2.6] - 2024-08-22
 
 Fixes a bug where properties did not load as expected on objects when using object templates. As of this release, the functionality is such that if properties are defined on both an object, and it's template, they will both end up on the resulting object, with the ones defined directly on the object overriding any properties that have the same name from the template. It does not compare types, so a String property with the name `test` would override a number property with the name `test`, as an example. Comparing types could be done in the future, but is likely more complicated than it's worth doing right now.
