@@ -327,23 +327,9 @@ def _parse_group_layer(
         LayerGroup: The LayerGroup created from raw_layer
     """
     layers: List[Layer] = []
-    for layer in raw_layer.findall("./layer"):
-        layers.append(_parse_tile_layer(layer))
-
-    for layer in raw_layer.findall("./objectgroup"):
-        layers.append(_parse_object_layer(layer, encoding, parent_dir))
-
-    for layer in raw_layer.findall("./imagelayer"):
-        layers.append(_parse_image_layer(layer))
-
-    for layer in raw_layer.findall("./group"):
-        layers.append(_parse_group_layer(layer, encoding, parent_dir))
-    # layers = []
-    # layers = [
-    #    parse(child_layer, parent_dir=parent_dir)
-    #    for child_layer in raw_layer.iter()
-    #    if child_layer.tag in ["layer", "objectgroup", "imagelayer", "group"]
-    # ]
+    for element in raw_layer:
+        if element.tag in ["layer", "objectgroup", "imagelayer", "group"]:
+            layers.append(parse(element, encoding, parent_dir))
 
     return LayerGroup(layers=layers, **_parse_common(raw_layer).__dict__)
 

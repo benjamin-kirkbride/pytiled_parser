@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="8" height="6" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="12">
+ <tileset firstgid="1" source="tileset.json"/>
+ <objectgroup id="13" name="Outer 2"/>
+ <group id="4" name="Outer Group">
+  <objectgroup id="15" name="Inner 2"/>
+  <group id="6" name="Inner Group"/>
+  <objectgroup id="14" name="Inner 1"/>
+ </group>
+ <objectgroup id="12" name="Outer 1"/>
+</map>

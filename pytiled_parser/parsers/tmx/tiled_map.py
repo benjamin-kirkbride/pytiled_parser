@@ -62,7 +62,7 @@ def parse(file: Path, encoding: str) -> TiledMap:
             )
 
     layers = []
-    for element in raw_map.findall("./*"):
+    for element in raw_map:
         if element.tag in ["layer", "objectgroup", "imagelayer", "group"]:
             layers.append(parse_layer(element, encoding, parent_dir))
 

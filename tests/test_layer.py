@@ -25,6 +25,7 @@ ALL_LAYER_TESTS = [
     LAYER_TESTS / "no_layers",
     LAYER_TESTS / "infinite_map",
     LAYER_TESTS / "infinite_map_b64",
+    LAYER_TESTS / "group_layer_order",
 ]
 
 ZSTD_LAYER_TEST = LAYER_TESTS / "b64_zstd"
@@ -79,26 +80,17 @@ def test_layer_integration(parser_type, layer_test):
     elif parser_type == "tmx":
         raw_layers_path = layer_test / "map.tmx"
         with open(raw_layers_path) as raw_layers_file:
-            raw_layer = etree.parse(raw_layers_file).getroot()
+            raw_map = etree.parse(raw_layers_file).getroot()
             layers = []
-            for layer in raw_layer.findall("./layer"):
-                layers.append(parse_tmx(layer, encoding="utf-8"))
-
-            for layer in raw_layer.findall("./objectgroup"):
-                layers.append(parse_tmx(layer, encoding="utf-8"))
-
-            for layer in raw_layer.findall("./group"):
-                layers.append(parse_tmx(layer, encoding="utf-8"))
-
-            for layer in raw_layer.findall("./imagelayer"):
-                layers.append(parse_tmx(layer, encoding="utf-8"))
+            for element in raw_map:
+                if element.tag in ["layer", "objectgroup", "imagelayer", "group"]:
+                    layers.append(parse_tmx(element, encoding="utf-8"))
 
     for layer in layers:
         fix_layer(layer)
 
     for layer in expected.EXPECTED:
         fix_layer(layer)
-        print(layer.size)
 
     assert layers == expected.EXPECTED
 
@@ -111,7 +103,8 @@ def test_zstd_not_installed(parser_type):
             raw_layers = json.load(raw_layers_file)["layers"]
             with pytest.raises(ValueError):
                 layers = [
-                    parse_json(raw_layer, encoding="utf-8") for raw_layer in raw_layers
+                    parse_json(raw_layer, encoding="utf-8")
+                    for raw_layer in reversed(raw_layers)
                 ]
     elif parser_type == "tmx":
         raw_layers_path = ZSTD_LAYER_TEST / "map.tmx"
