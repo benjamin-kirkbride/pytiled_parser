@@ -337,7 +337,7 @@ def _parse_group_layer(
         layers.append(_parse_image_layer(layer))
 
     for layer in raw_layer.findall("./group"):
-        layers.append(_parse_group_layer(layer, parent_dir))
+        layers.append(_parse_group_layer(layer, encoding, parent_dir))
     # layers = []
     # layers = [
     #    parse(child_layer, parent_dir=parent_dir)
