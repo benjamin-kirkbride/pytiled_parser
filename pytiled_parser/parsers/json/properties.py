@@ -46,7 +46,7 @@ def parse(raw_properties: List[RawProperty]) -> Properties:
             elif raw_property["type"] == "color":
                 value = parse_color(cast(str, raw_property["value"]))
             elif raw_property["type"] == "int":
-                value = round(raw_property["value"])
+                value = round(cast(float, raw_property["value"]))
             else:
                 value = raw_property["value"]
             final[raw_property["name"]] = value
