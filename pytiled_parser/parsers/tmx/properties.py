@@ -20,7 +20,9 @@ def parse(raw_properties: etree.Element) -> Properties:
             value = Path(value_)
         elif type_ == "color":
             value = parse_color(value_)
-        elif type_ == "int" or type_ == "float":
+        elif type_ == "int":
+            value = round(float(value_))
+        elif type_ == "float":
             value = float(value_)
         elif type_ == "bool":
             if value_ == "true":

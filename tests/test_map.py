@@ -1,4 +1,5 @@
 """Tests for maps"""
+
 import importlib.util
 import os
 from pathlib import Path
@@ -20,9 +21,11 @@ ALL_MAP_TESTS = [
     MAP_TESTS / "embedded_tileset",
     MAP_TESTS / "template",
     MAP_TESTS / "cross_format_tileset",
+    MAP_TESTS / "special_do_not_resave_from_tiled",
 ]
 
 JSON_INVALID_TILESET = MAP_TESTS / "json_invalid_tileset"
+
 
 def fix_object(my_object):
     my_object.coordinates = OrderedPair(
@@ -89,6 +92,7 @@ def test_map_integration(parser_type, map_test):
     fix_map(expected.EXPECTED)
     fix_map(casted_map)
     assert casted_map == expected.EXPECTED
+
 
 def test_json_invalid_tileset():
     raw_map_path = JSON_INVALID_TILESET / "map.json"

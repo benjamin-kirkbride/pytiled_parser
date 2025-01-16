@@ -13,6 +13,6 @@ from typing import Dict, Union
 
 from .common_types import Color
 
-Property = Union[float, Path, str, bool, Color]
+Property = Union[int, float, Path, str, bool, Color]
 
 Properties = Dict[str, Property]
