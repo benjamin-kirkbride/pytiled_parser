@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
- <object width="63.6586" height="38.2812">
+ <object name="test" width="63.6586" height="38.2812">
     <properties>
         <property name="test" value="world"/>
         <property name="testtest" value="fromtemplate"/>

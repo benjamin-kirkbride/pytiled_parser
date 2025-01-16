@@ -11,7 +11,7 @@
  <tileset firstgid="1" source="tileset.tsx"/>
  <tileset firstgid="49" source="tile_set_image_for_template.tsx"/>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="2" template="template-rectangle.tx" x="98.4988" y="46.2385">
+  <object id="2" template="template-rectangle.tx" name="hello" x="98.4988" y="46.2385">
    <properties>
     <property name="test" value="hello"/>
    </properties>

@@ -337,6 +337,9 @@ def parse(
 
                             if not found:
                                 raw_object["properties"].append(prop)
+                    elif key == "name":
+                        if "name" not in raw_object:
+                            raw_object["name"] = loaded_template[key]
                     else:
                         raw_object[key] = loaded_template[key]  # type: ignore
         else:

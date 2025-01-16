@@ -17,6 +17,7 @@
                          "value":"hello"
                         }],
                  "template":"template-rectangle.json",
+                 "name": "hello",
                  "x":98.4987608686521,
                  "y":46.2385012811358
                 }, 

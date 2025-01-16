@@ -15,7 +15,7 @@ EXPECTED = tiled_map.TiledMap(
             tiled_objects=[
                 tiled_object.Rectangle(
                     id=2,
-                    name="",
+                    name="hello",
                     rotation=0,
                     size=common_types.Size(63.6585878103079, 38.2811778048473),
                     coordinates=common_types.OrderedPair(
