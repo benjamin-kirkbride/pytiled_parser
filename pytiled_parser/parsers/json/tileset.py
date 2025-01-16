@@ -161,7 +161,9 @@ def _parse_grid(raw_grid: RawGrid) -> Grid:
     )
 
 
-def _parse_tile(raw_tile: RawTile, external_path: Optional[Path] = None) -> Tile:
+def _parse_tile(
+    raw_tile: RawTile, encoding: str, external_path: Optional[Path] = None
+) -> Tile:
     """Parse the raw_tile to a Tile object.
 
     Args:
@@ -180,7 +182,7 @@ def _parse_tile(raw_tile: RawTile, external_path: Optional[Path] = None) -> Tile
             tile.animation.append(_parse_frame(frame))
 
     if raw_tile.get("objectgroup") is not None:
-        tile.objects = parse_layer(raw_tile["objectgroup"])
+        tile.objects = parse_layer(raw_tile["objectgroup"], encoding)
 
     if raw_tile.get("properties") is not None:
         tile.properties = parse_properties(raw_tile["properties"])
@@ -231,6 +233,7 @@ def _parse_tile(raw_tile: RawTile, external_path: Optional[Path] = None) -> Tile
 def parse(
     raw_tileset: RawTileSet,
     firstgid: int,
+    encoding: str,
     external_path: Optional[Path] = None,
 ) -> Tileset:
     """Parse the raw tileset into a pytiled_parser type
@@ -309,12 +312,12 @@ def parse(
                 assert raw_tile.get("id") is None
                 raw_tile["id"] = int(raw_tile_id)
                 tiles[raw_tile["id"]] = _parse_tile(
-                    raw_tile, external_path=external_path
+                    raw_tile, encoding, external_path=external_path
                 )
         else:
             for raw_tile in raw_tileset["tiles"]:
                 tiles[raw_tile["id"]] = _parse_tile(
-                    raw_tile, external_path=external_path
+                    raw_tile, encoding, external_path=external_path
                 )
         tileset.tiles = tiles
 

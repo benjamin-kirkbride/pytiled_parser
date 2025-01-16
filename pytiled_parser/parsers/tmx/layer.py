@@ -262,7 +262,7 @@ def _parse_tile_layer(raw_layer: etree.Element) -> TileLayer:
 
 
 def _parse_object_layer(
-    raw_layer: etree.Element, parent_dir: Optional[Path] = None
+    raw_layer: etree.Element, encoding: str, parent_dir: Optional[Path] = None
 ) -> ObjectLayer:
     """Parse the raw_layer to an ObjectLayer.
 
@@ -274,7 +274,7 @@ def _parse_object_layer(
     """
     objects = []
     for object_ in raw_layer.findall("./object"):
-        objects.append(parse_object(object_, parent_dir))
+        objects.append(parse_object(object_, encoding, parent_dir))
 
     object_layer = ObjectLayer(
         tiled_objects=objects,
@@ -316,7 +316,7 @@ def _parse_image_layer(raw_layer: etree.Element) -> ImageLayer:
 
 
 def _parse_group_layer(
-    raw_layer: etree.Element, parent_dir: Optional[Path] = None
+    raw_layer: etree.Element, encoding: str, parent_dir: Optional[Path] = None
 ) -> LayerGroup:
     """Parse the raw_layer to a LayerGroup.
 
@@ -331,7 +331,7 @@ def _parse_group_layer(
         layers.append(_parse_tile_layer(layer))
 
     for layer in raw_layer.findall("./objectgroup"):
-        layers.append(_parse_object_layer(layer, parent_dir))
+        layers.append(_parse_object_layer(layer, encoding, parent_dir))
 
     for layer in raw_layer.findall("./imagelayer"):
         layers.append(_parse_image_layer(layer))
@@ -350,6 +350,7 @@ def _parse_group_layer(
 
 def parse(
     raw_layer: etree.Element,
+    encoding: str,
     parent_dir: Optional[Path] = None,
 ) -> Layer:
     """Parse a raw Layer into a pytiled_parser object.
@@ -369,9 +370,9 @@ def parse(
     type_ = raw_layer.tag
 
     if type_ == "objectgroup":
-        return _parse_object_layer(raw_layer, parent_dir)
+        return _parse_object_layer(raw_layer, encoding, parent_dir)
     elif type_ == "group":
-        return _parse_group_layer(raw_layer, parent_dir)
+        return _parse_group_layer(raw_layer, encoding, parent_dir)
     elif type_ == "imagelayer":
         return _parse_image_layer(raw_layer)
     elif type_ == "layer":

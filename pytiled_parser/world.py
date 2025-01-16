@@ -100,7 +100,7 @@ def _parse_world_map(raw_world_map: RawWorldMap, map_file: Path) -> WorldMap:
     )
 
 
-def parse_world(file: Path) -> World:
+def parse_world(file: Path, encoding: str) -> World:
     """Parse the raw world into a pytiled_parser type
 
     Args:
@@ -110,7 +110,7 @@ def parse_world(file: Path) -> World:
         World: A properly parsed [World][pytiled_parser.world.World]
     """
 
-    with open(file) as world_file:
+    with open(file, encoding="utf-8") as world_file:
         raw_world = json.load(world_file)
 
     parent_dir = file.parent

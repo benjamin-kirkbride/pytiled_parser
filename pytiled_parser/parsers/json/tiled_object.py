@@ -291,6 +291,7 @@ def _get_parser(raw_object: RawObject) -> Callable[[RawObject], TiledObject]:
 
 def parse(
     raw_object: RawObject,
+    encoding: str,
     parent_dir: Optional[Path] = None,
 ) -> TiledObject:
     """Parse the raw object into a pytiled_parser version
@@ -314,7 +315,9 @@ def parse(
                 "A parent directory must be specified when using object templates."
             )
         template_path = Path(parent_dir / raw_object["template"])
-        template, new_tileset, new_tileset_path = load_object_template(template_path)
+        template, new_tileset, new_tileset_path = load_object_template(
+            template_path, encoding
+        )
 
         if isinstance(template, dict):
             loaded_template = template["object"]

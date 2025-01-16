@@ -63,7 +63,9 @@ def _parse_transformations(raw_transformations: etree.Element) -> Transformation
     )
 
 
-def _parse_tile(raw_tile: etree.Element, external_path: Optional[Path] = None) -> Tile:
+def _parse_tile(
+    raw_tile: etree.Element, encoding: str, external_path: Optional[Path] = None
+) -> Tile:
     """Parse the raw_tile to a Tile object.
 
     Args:
@@ -89,7 +91,7 @@ def _parse_tile(raw_tile: etree.Element, external_path: Optional[Path] = None) -
 
     object_element = raw_tile.find("./objectgroup")
     if object_element is not None:
-        tile.objects = parse_layer(object_element)
+        tile.objects = parse_layer(object_element, encoding)
 
     properties_element = raw_tile.find("./properties")
     if properties_element is not None:
@@ -129,6 +131,7 @@ def _parse_tile(raw_tile: etree.Element, external_path: Optional[Path] = None) -
 def parse(
     raw_tileset: etree.Element,
     firstgid: int,
+    encoding: str,
     external_path: Optional[Path] = None,
 ) -> Tileset:
     tileset = Tileset(
@@ -204,7 +207,7 @@ def parse(
     tiles = {}
     for tile_element in raw_tileset.findall("./tile"):
         tiles[int(tile_element.attrib["id"])] = _parse_tile(
-            tile_element, external_path=external_path
+            tile_element, encoding, external_path=external_path
         )
     if tiles:
         tileset.tiles = tiles

@@ -298,6 +298,7 @@ def _parse_tile_layer(raw_layer: RawLayer) -> TileLayer:
 
 def _parse_object_layer(
     raw_layer: RawLayer,
+    encoding: str,
     parent_dir: Optional[Path] = None,
 ) -> ObjectLayer:
     """Parse the raw_layer to an ObjectLayer.
@@ -310,7 +311,7 @@ def _parse_object_layer(
     """
     objects = []
     for object_ in raw_layer["objects"]:
-        objects.append(parse_object(object_, parent_dir))
+        objects.append(parse_object(object_, encoding, parent_dir))
 
     return ObjectLayer(
         tiled_objects=objects,
@@ -339,7 +340,7 @@ def _parse_image_layer(raw_layer: RawLayer) -> ImageLayer:
 
 
 def _parse_group_layer(
-    raw_layer: RawLayer, parent_dir: Optional[Path] = None
+    raw_layer: RawLayer, encoding, parent_dir: Optional[Path] = None
 ) -> LayerGroup:
     """Parse the raw_layer to a LayerGroup.
 
@@ -352,13 +353,14 @@ def _parse_group_layer(
     layers = []
 
     for layer in raw_layer["layers"]:
-        layers.append(parse(layer, parent_dir=parent_dir))
+        layers.append(parse(layer, encoding, parent_dir=parent_dir))
 
     return LayerGroup(layers=layers, **_parse_common(raw_layer).__dict__)
 
 
 def parse(
     raw_layer: RawLayer,
+    encoding: str,
     parent_dir: Optional[Path] = None,
 ) -> Layer:
     """Parse a raw Layer into a pytiled_parser object.
@@ -378,9 +380,9 @@ def parse(
     type_ = raw_layer["type"]
 
     if type_ == "objectgroup":
-        return _parse_object_layer(raw_layer, parent_dir)
+        return _parse_object_layer(raw_layer, encoding, parent_dir)
     elif type_ == "group":
-        return _parse_group_layer(raw_layer, parent_dir)
+        return _parse_group_layer(raw_layer, encoding, parent_dir)
     elif type_ == "imagelayer":
         return _parse_image_layer(raw_layer)
     elif type_ == "tilelayer":

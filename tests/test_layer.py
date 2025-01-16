@@ -1,4 +1,5 @@
 """Tests for tilesets"""
+
 import importlib.util
 import json
 import os
@@ -72,23 +73,25 @@ def test_layer_integration(parser_type, layer_test):
         raw_layers_path = layer_test / "map.json"
         with open(raw_layers_path) as raw_layers_file:
             raw_layers = json.load(raw_layers_file)["layers"]
-            layers = [parse_json(raw_layer) for raw_layer in raw_layers]
+            layers = [
+                parse_json(raw_layer, encoding="utf-8") for raw_layer in raw_layers
+            ]
     elif parser_type == "tmx":
         raw_layers_path = layer_test / "map.tmx"
         with open(raw_layers_path) as raw_layers_file:
             raw_layer = etree.parse(raw_layers_file).getroot()
             layers = []
             for layer in raw_layer.findall("./layer"):
-                layers.append(parse_tmx(layer))
+                layers.append(parse_tmx(layer, encoding="utf-8"))
 
             for layer in raw_layer.findall("./objectgroup"):
-                layers.append(parse_tmx(layer))
+                layers.append(parse_tmx(layer, encoding="utf-8"))
 
             for layer in raw_layer.findall("./group"):
-                layers.append(parse_tmx(layer))
+                layers.append(parse_tmx(layer, encoding="utf-8"))
 
             for layer in raw_layer.findall("./imagelayer"):
-                layers.append(parse_tmx(layer))
+                layers.append(parse_tmx(layer, encoding="utf-8"))
 
     for layer in layers:
         fix_layer(layer)
@@ -99,6 +102,7 @@ def test_layer_integration(parser_type, layer_test):
 
     assert layers == expected.EXPECTED
 
+
 @pytest.mark.parametrize("parser_type", ["json", "tmx"])
 def test_zstd_not_installed(parser_type):
     if parser_type == "json":
@@ -106,7 +110,9 @@ def test_zstd_not_installed(parser_type):
         with open(raw_layers_path) as raw_layers_file:
             raw_layers = json.load(raw_layers_file)["layers"]
             with pytest.raises(ValueError):
-                layers = [parse_json(raw_layer) for raw_layer in raw_layers]
+                layers = [
+                    parse_json(raw_layer, encoding="utf-8") for raw_layer in raw_layers
+                ]
     elif parser_type == "tmx":
         raw_layers_path = ZSTD_LAYER_TEST / "map.tmx"
         with open(raw_layers_path) as raw_layers_file:
@@ -114,25 +120,28 @@ def test_zstd_not_installed(parser_type):
                 raw_layer = etree.parse(raw_layers_file).getroot()
                 layers = []
                 for layer in raw_layer.findall("./layer"):
-                    layers.append(parse_tmx(layer))
+                    layers.append(parse_tmx(layer, encoding="utf-8"))
 
                 for layer in raw_layer.findall("./objectgroup"):
-                    layers.append(parse_tmx(layer))
+                    layers.append(parse_tmx(layer, encoding="utf-8"))
 
                 for layer in raw_layer.findall("./group"):
-                    layers.append(parse_tmx(layer))
+                    layers.append(parse_tmx(layer, encoding="utf-8"))
 
                 for layer in raw_layer.findall("./imagelayer"):
-                    layers.append(parse_tmx(layer))
+                    layers.append(parse_tmx(layer, encoding="utf-8"))
+
 
 def test_unknown_layer_type():
     # We only test JSON here because due to the nature of the TMX format
     # there does not exist a scenario where pytiled_parser can attempt to
-    # parse an unknown layer type. In JSON a RuntimeError error will be 
+    # parse an unknown layer type. In JSON a RuntimeError error will be
     # raised if an unknown type is provided. In TMX the layer will just
     # be ignored.
     raw_layers_path = UNKNOWN_LAYER_TYPE_TEST / "map.json"
     with open(raw_layers_path) as raw_layers_file:
         raw_layers = json.load(raw_layers_file)["layers"]
         with pytest.raises(RuntimeError):
-            layers = [parse_json(raw_layer) for raw_layer in raw_layers]
+            layers = [
+                parse_json(raw_layer, encoding="utf-8") for raw_layer in raw_layers
+            ]

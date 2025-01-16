@@ -245,7 +245,9 @@ def _get_parser(raw_object: etree.Element) -> Callable[[etree.Element], TiledObj
     return _parse_rectangle
 
 
-def parse(raw_object: etree.Element, parent_dir: Optional[Path] = None) -> TiledObject:
+def parse(
+    raw_object: etree.Element, encoding: str, parent_dir: Optional[Path] = None
+) -> TiledObject:
     """Parse the raw object into a pytiled_parser version
 
     Args:
@@ -267,7 +269,9 @@ def parse(raw_object: etree.Element, parent_dir: Optional[Path] = None) -> Tiled
                 "A parent directory must be specified when using object templates."
             )
         template_path = Path(parent_dir / raw_object.attrib["template"])
-        template, new_tileset, new_tileset_path = load_object_template(template_path)
+        template, new_tileset, new_tileset_path = load_object_template(
+            template_path, encoding
+        )
 
         if isinstance(template, etree.Element):
             new_object = template.find("./object")

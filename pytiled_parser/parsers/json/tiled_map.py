@@ -55,7 +55,7 @@ RawTiledMap.__doc__ = """
 """
 
 
-def parse(file: Path) -> TiledMap:
+def parse(file: Path, encoding: str) -> TiledMap:
     """Parse the raw Tiled map into a pytiled_parser type.
 
     Args:
@@ -64,7 +64,7 @@ def parse(file: Path) -> TiledMap:
     Returns:
         TiledMap: A parsed TiledMap.
     """
-    with open(file) as map_file:
+    with open(file, encoding=encoding) as map_file:
         raw_tiled_map = json.load(map_file)
 
     parent_dir = file.parent
@@ -76,13 +76,14 @@ def parse(file: Path) -> TiledMap:
         if raw_tileset.get("source") is not None:
             # Is an external Tileset
             tileset_path = Path(parent_dir / raw_tileset["source"])
-            parser = check_format(tileset_path)
-            with open(tileset_path) as raw_tileset_file:
+            parser = check_format(tileset_path, encoding)
+            with open(tileset_path, encoding=encoding) as raw_tileset_file:
                 if parser == "tmx":
                     raw_tileset_external = etree.parse(raw_tileset_file).getroot()
                     tilesets[raw_tileset["firstgid"]] = parse_tmx_tileset(
                         raw_tileset_external,
                         raw_tileset["firstgid"],
+                        encoding,
                         external_path=tileset_path.parent,
                     )
                 else:
@@ -90,6 +91,7 @@ def parse(file: Path) -> TiledMap:
                         tilesets[raw_tileset["firstgid"]] = parse_json_tileset(
                             json.load(raw_tileset_file),
                             raw_tileset["firstgid"],
+                            encoding,
                             external_path=tileset_path.parent,
                         )
                     except ValueError:
@@ -101,7 +103,7 @@ def parse(file: Path) -> TiledMap:
             # Is an embedded Tileset
             raw_tileset = cast(RawTileSet, raw_tileset)
             tilesets[raw_tileset["firstgid"]] = parse_json_tileset(
-                raw_tileset, raw_tileset["firstgid"]
+                raw_tileset, raw_tileset["firstgid"], encoding
             )
 
     if isinstance(raw_tiled_map["version"], float):  # pragma: no cover
@@ -113,7 +115,10 @@ def parse(file: Path) -> TiledMap:
     map_ = TiledMap(
         map_file=file,
         infinite=raw_tiled_map.get("infinite", False),
-        layers=[parse_layer(layer_, parent_dir) for layer_ in raw_tiled_map["layers"]],
+        layers=[
+            parse_layer(layer_, encoding, parent_dir)
+            for layer_ in raw_tiled_map["layers"]
+        ],
         map_size=Size(raw_tiled_map["width"], raw_tiled_map["height"]),
         next_layer_id=raw_tiled_map.get("nextlayerid"),
         next_object_id=raw_tiled_map["nextobjectid"],
@@ -157,6 +162,7 @@ def parse(file: Path) -> TiledMap:
                         map_.tilesets[new_firstgid] = parse_json_tileset(
                             tiled_object.new_tileset,
                             new_firstgid,
+                            encoding,
                             tiled_object.new_tileset_path,
                         )
                         tiled_object.gid = tiled_object.gid + (new_firstgid - 1)

@@ -1,4 +1,5 @@
 """Tests for worlds"""
+
 import importlib.util
 import operator
 import os
@@ -35,7 +36,7 @@ def test_world_integration(world_test):
 
     raw_world_path = world_test / "world.world"
 
-    casted_world = world.parse_world(raw_world_path)
+    casted_world = world.parse_world(raw_world_path, encoding="utf-8")
 
     # These fix calls sort the map list in the world by the map_file
     # attribute because we don't actually care about the order of the list

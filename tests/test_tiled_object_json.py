@@ -1,4 +1,5 @@
 """Tests for objects"""
+
 import json
 from contextlib import ExitStack as does_not_raise
 from pathlib import Path
@@ -1110,7 +1111,7 @@ OBJECTS = ELLIPSES + RECTANGLES + POINTS + TILES + POLYGONS + POLYLINES + TEXTS
 @pytest.mark.parametrize("raw_object_json,expected", OBJECTS)
 def test_parse_layer(raw_object_json, expected):
     raw_object = json.loads(raw_object_json)
-    result = parse(raw_object)
+    result = parse(raw_object, encoding="utf-8")
 
     assert result == expected
 
@@ -1128,4 +1129,4 @@ def test_parse_no_parent_dir():
 
     json_object = json.loads(raw_object)
     with pytest.raises(RuntimeError):
-        parse(json_object)
+        parse(json_object, encoding="utf-8")

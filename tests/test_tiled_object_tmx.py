@@ -1,4 +1,5 @@
 """Tests for objects"""
+
 import xml.etree.ElementTree as etree
 from contextlib import ExitStack as does_not_raise
 from pathlib import Path
@@ -491,6 +492,6 @@ OBJECTS = ELLIPSES + RECTANGLES + POINTS + POLYGONS + POLYLINES + TEXTS + TILES
 @pytest.mark.parametrize("raw_object_tmx,expected", OBJECTS)
 def test_parse_layer(raw_object_tmx, expected):
     raw_object = etree.fromstring(raw_object_tmx)
-    result = parse(raw_object)
+    result = parse(raw_object, encoding="utf-8")
 
     assert result == expected

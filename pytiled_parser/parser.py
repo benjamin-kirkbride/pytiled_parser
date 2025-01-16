@@ -14,23 +14,24 @@ from pytiled_parser.world import World
 from pytiled_parser.world import parse_world as _parse_world
 
 
-def parse_map(file: Path) -> TiledMap:
+def parse_map(file: Path, encoding: str = "utf-8") -> TiledMap:
     """Parse the raw Tiled map into a pytiled_parser type
 
     Args:
         file: Path to the map file
+        encoding: The character encoding set to use when opening the file
 
     Returns:
         TiledMap: A parsed and typed TiledMap
     """
-    parser = check_format(file)
+    parser = check_format(file, encoding)
 
     # The type ignores are because mypy for some reason thinks those functions return Any
     if parser == "tmx":
-        return tmx_map_parse(file)  # type: ignore
+        return tmx_map_parse(file, encoding)  # type: ignore
     else:
         try:
-            return json_map_parse(file)  # type: ignore
+            return json_map_parse(file, encoding)  # type: ignore
         except ValueError:
             raise UnknownFormat(
                 "Unknown Map Format, please use either the TMX or JSON format. "
@@ -38,26 +39,27 @@ def parse_map(file: Path) -> TiledMap:
             )
 
 
-def parse_tileset(file: Path) -> Tileset:
+def parse_tileset(file: Path, encoding: str = "utf-8") -> Tileset:
     """Parse the raw Tiled Tileset into a pytiled_parser type
 
     Args:
         file: Path to the map file
+        encoding: The character encoding set to use when opening the file
 
     Returns:
         Tileset: A parsed and typed Tileset
     """
-    parser = check_format(file)
+    parser = check_format(file, encoding)
 
     if parser == "tmx":
-        with open(file) as map_file:
+        with open(file, encoding=encoding) as map_file:
             raw_tileset = etree.parse(map_file).getroot()
-        return tmx_tileset_parse(raw_tileset, 1)
+        return tmx_tileset_parse(raw_tileset, 1, encoding)
     else:
         try:
-            with open(file) as my_file:
+            with open(file, encoding=encoding) as my_file:
                 raw_tileset = json.load(my_file)
-            return json_tileset_parse(raw_tileset, 1)
+            return json_tileset_parse(raw_tileset, 1, encoding)
         except ValueError:
             raise UnknownFormat(
                 "Unknowm Tileset Format, please use either the TSX or JSON format. "
@@ -65,13 +67,14 @@ def parse_tileset(file: Path) -> Tileset:
             )
 
 
-def parse_world(file: Path) -> World:
+def parse_world(file: Path, encoding: str = "utf-8") -> World:
     """Parse the raw world file into a pytiled_parser type
 
     Args:
         file: Path to the world file
+        encoding: The character encoding set to use when opening the file
 
     Returns:
         World: A parsed and typed World
     """
-    return _parse_world(file)
+    return _parse_world(file, encoding)

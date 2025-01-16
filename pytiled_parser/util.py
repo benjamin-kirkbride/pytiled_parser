@@ -37,8 +37,8 @@ def parse_color(color: str) -> Color:
     raise ValueError("Improperly formatted color passed to parse_color")
 
 
-def check_format(file_path: Path) -> str:
-    with open(file_path) as file:
+def check_format(file_path: Path, encoding: str) -> str:
+    with open(file_path, encoding=encoding) as file:
         line = file.readline().rstrip().strip()
         if line[0] == "<":
             return "tmx"
@@ -46,38 +46,38 @@ def check_format(file_path: Path) -> str:
             return "json"
 
 
-def load_object_template(file_path: Path) -> Any:
-    template_format = check_format(file_path)
+def load_object_template(file_path: Path, encoding: str) -> Any:
+    template_format = check_format(file_path, encoding)
 
     new_tileset = None
     new_tileset_path = None
 
     if template_format == "tmx":
-        with open(file_path) as template_file:
+        with open(file_path, encoding=encoding) as template_file:
             template = etree.parse(template_file).getroot()
 
             tileset_element = template.find("./tileset")
             if tileset_element is not None:
                 tileset_path = Path(file_path.parent / tileset_element.attrib["source"])
-                new_tileset = load_object_tileset(tileset_path)
+                new_tileset = load_object_tileset(tileset_path, encoding)
                 new_tileset_path = tileset_path.parent
     else:
-        with open(file_path) as template_file:
+        with open(file_path, encoding=encoding) as template_file:
             template = json.load(template_file)
             if "tileset" in template:
                 tileset_path = Path(file_path.parent / template["tileset"]["source"])  # type: ignore
-                new_tileset = load_object_tileset(tileset_path)
+                new_tileset = load_object_tileset(tileset_path, encoding)
                 new_tileset_path = tileset_path.parent
 
     return (template, new_tileset, new_tileset_path)
 
 
-def load_object_tileset(file_path: Path) -> Any:
-    tileset_format = check_format(file_path)
+def load_object_tileset(file_path: Path, encoding: str) -> Any:
+    tileset_format = check_format(file_path, encoding)
 
     new_tileset = None
 
-    with open(file_path) as tileset_file:
+    with open(file_path, encoding=encoding) as tileset_file:
         if tileset_format == "tmx":
             new_tileset = etree.parse(tileset_file).getroot()
         else:
