@@ -4,42 +4,36 @@ version = "2.2.7"
 description = "A library for parsing Tiled Map Editor maps and tilesets"
 readme = "README.md"
 authors = [
-    {name="Benjamin Kirkbride", email="BenjaminKirkbride@gmail.com"},
-    {name="Darren Eberly", email="Darren.Eberly@gmail.com"},
+    { name = "Benjamin Kirkbride", email = "BenjaminKirkbride@gmail.com" },
+    { name = "Darren Eberly", email = "Darren.Eberly@gmail.com" },
 ]
-maintainers = [
-    {name="Darren Eberly", email="Darren.Eberly@gmail.com"}
-]
-license = {file = "LICENSE"}
+maintainers = [{ name = "Darren Eberly", email = "Darren.Eberly@gmail.com" }]
+license = { file = "LICENSE" }
 requires-python = ">=3.6"
 classifiers = [
-  "Development Status :: 5 - Production/Stable",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.6",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Topic :: Software Development :: Libraries :: Python Modules"  
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = [
-    "attrs >= 18.2.0",
-    "typing-extensions"
-]
+dependencies = ["attrs >= 18.2.0", "typing-extensions"]
 
 [project.urls]
 homepage = "https://github.com/pythonarcade/pytiled_parser"
 
 [project.optional-dependencies]
-zstd = [
-    "zstd"
-]
+zstd = ["zstd"]
 
 dev = [
     "pytest",
@@ -50,20 +44,12 @@ dev = [
     "sphinx",
     "sphinx-sitemap",
     "myst-parser",
-    "furo"
+    "furo",
 ]
 
-tests = [
-    "pytest",
-    "pytest-cov",
-    "black",
-    "ruff",
-    "mypy"
-]
+tests = ["pytest", "pytest-cov", "black", "ruff", "mypy"]
 
-build = [
-    "build"
-]
+build = ["build"]
 
 [tool.setuptools.packages.find]
 include = ["pytiled_parser", "pytiled_parser.*"]
@@ -82,7 +68,7 @@ branch = true
 show_missing = true
 
 [tool.mypy]
-python_version = 3.11
+python_version = "3.13"
 warn_unused_configs = true
 warn_redundant_casts = true
 ignore_missing_imports = true

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [2.2.8] - UNRELEASED
 
+Add explicit support for 3.13, previous versions work on 3.13 but it was not explicitly labeled as supported or being tested by CI.
+
 Converts all file loading to use UTF-8 encoding by default. In most cases, all Tiled files will be exported from Tiled in UTF-8 encoding, however the python `open()` function uses the system default locale. The only case where Tiled would not have used UTF-8 is for JSON files when Tiled was compiled against Qt 5, which is only in some builds of Tiled from older systems. All XML files exported from Tiled will always be UTF-8. If someone happens to have a JSON file which was exported from Tiled on an encoding other than UTF-8, or for some other reason is in a different encoding. This can be switched using a new optional argument named `encoding` in the various public API `parse` functions such as `parse_map()`. This value is handed down through the pipeline of file loading in pytiled-parser, and will apply to every file loaded during the chain from this. This means that every file in a chain(for example, Map, Tileset, and Template File) must share the same encoding. This new argument is a string which is ultimately passed to the Python [open()](https://docs.python.org/3/library/functions.html#open) function. This change does introduce breaking changes in the underlying API which is not intended to be public facing, but if you are going deeper than the top level parse functions, you may need to adjust for this, as many of the underlying internal functions now have a mandatory encoding argument.
 
 ## [2.2.7] - 2024-10-03

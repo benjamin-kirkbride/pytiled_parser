@@ -14,7 +14,7 @@ integrate PyTiled Parser and [example code](https://api.arcade.academy/en/latest
 
 ## Supported Python Versions
 
-pytiled-parser works on Python 3.6 - 3.12(and should continue to work on new versions). However we are not actively testing on Python 3.6 and 3.7 due to other development tooling not supporting them, however as long as it remains tenable to do so, we will support these versions and fix problems for them.
+pytiled-parser works on Python 3.6 - 3.13(and should continue to work on new versions). However we are not actively testing on Python 3.6 and 3.7 due to other development tooling not supporting them, however as long as it remains tenable to do so, we will support these versions and fix problems for them.
 
 ## Installation
 
