@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [2.2.9] - 2025-01-23
+
+Fixes a bug where object templates would cause an error when used inside of TileSet. This occurs when using an object template to define collision details on a tile within a tileset. See #82.
+
 ## [2.2.8] - 2025-01-16
 
 Add explicit support for 3.13, previous versions work on 3.13 but it was not explicitly labeled as supported or being tested by CI.
