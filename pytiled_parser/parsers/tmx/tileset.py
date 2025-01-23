@@ -91,7 +91,7 @@ def _parse_tile(
 
     object_element = raw_tile.find("./objectgroup")
     if object_element is not None:
-        tile.objects = parse_layer(object_element, encoding)
+        tile.objects = parse_layer(object_element, encoding, external_path)
 
     properties_element = raw_tile.find("./properties")
     if properties_element is not None:

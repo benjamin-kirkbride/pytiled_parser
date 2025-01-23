@@ -182,7 +182,7 @@ def _parse_tile(
             tile.animation.append(_parse_frame(frame))
 
     if raw_tile.get("objectgroup") is not None:
-        tile.objects = parse_layer(raw_tile["objectgroup"], encoding)
+        tile.objects = parse_layer(raw_tile["objectgroup"], encoding, external_path)
 
     if raw_tile.get("properties") is not None:
         tile.properties = parse_properties(raw_tile["properties"])

@@ -9,16 +9,34 @@
  "name":"tile_set_single_image",
  "spacing":0,
  "tilecount":1,
- "tiledversion":"1.7.1",
+ "tiledversion":"1.9.2",
  "tileheight":32,
  "tiles":[
         {
          "id":0,
          "image":"..\/..\/images\/tile_02.png",
          "imageheight":32,
-         "imagewidth":32
+         "imagewidth":32,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "id":1,
+                     "template":"template-rectangle.json",
+                     "x":9.5,
+                     "y":3
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
         }],
  "tilewidth":32,
  "type":"tileset",
- "version":"1.6"
+ "version":"1.9"
 }

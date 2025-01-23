@@ -110,6 +110,32 @@ EXPECTED = tiled_map.TiledMap(
                     image_width=32,
                     width=32,
                     height=32,
+                    objects=layer.ObjectLayer(
+                        id=2,
+                        name="",
+                        draw_order="index",
+                        opacity=1,
+                        visible=True,
+                        parallax_factor=common_types.OrderedPair(1.0, 1.0),
+                        coordinates=common_types.OrderedPair(0, 0),
+                        tiled_objects=[
+                            tiled_object.Rectangle(
+                                id=1,
+                                name="test",
+                                rotation=0,
+                                size=common_types.Size(
+                                    63.6585878103079, 38.2811778048473
+                                ),
+                                coordinates=common_types.OrderedPair(9.5, 3.0),
+                                properties={
+                                    "test": "world",
+                                    "testtest": "fromtemplate",
+                                },
+                                visible=True,
+                                class_="",
+                            ),
+                        ],
+                    ),
                 )
             },
             tile_count=1,
